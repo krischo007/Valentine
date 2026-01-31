@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Knew you would say yes!</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0b1c26;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      color: black;
+      border-radius: 14px;
+      padding: 25px;
+      width: 340px;
+      animation: pop 0.6s ease forwards;
+    }
+
+    h2 {
+      color: #d24b4b;
+      margin-bottom: 15px;
+      font-size: 26px;
+    }
+
+    .hug {
+      width: 200px;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(0.85);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .heart {
+      position: absolute;
+      top: -40px;
+      font-size: 22px;
+      animation: fall linear forwards;
+      opacity: 0.9;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0.2;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="card">
+      <h2>Knew you would say yes!</h2>
+      <img class="hug"
+           src="https://media.tenor.com/0C4Wb9pQbPAAAAAC/bear-hug.gif"
+           alt="hug" />
+    </div>
+  </div>
+
+  <script>
+    const hearts = ["💖","💗","💘","💞","💓"];
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (18 + Math.random() * 18) + "px";
+      heart.style.animationDuration = (2.5 + Math.random() * 2.5) + "s";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createHeart, 250);
+  </script>
+
+</body>
+</html>
