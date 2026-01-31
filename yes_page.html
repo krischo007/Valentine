@@ -1,113 +1,114 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Knew you would say yes!</title>
-
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
+    *{box-sizing:border-box;font-family:Arial, sans-serif}
+    body{
+      margin:0; min-height:100vh;
+      display:flex; align-items:center; justify-content:center;
+      background:#0b1c26;
+      overflow:hidden;
+    }
+    .card{
+      width:min(520px, 92vw);
+      background:#fff;
+      border-radius:14px;
+      padding:26px 18px;
+      color:#111;
+      text-align:center;
+      position:relative;
+      z-index:2;
+    }
+    h2{
+      margin:0 0 14px;
+      color:#d24b4b;
+      font-size:28px;
+      animation: pop .6s ease both;
+    }
+    .gif{
+      width:220px;
+      display:block;
+      margin:0 auto;
+      animation: floaty 2.2s ease-in-out infinite;
+      border-radius:10px;
     }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #0b1c26;
-      overflow: hidden;
-    }
-
-    .container {
-      text-align: center;
-      color: white;
-      padding: 20px;
-    }
-
-    .card {
-      background: white;
-      color: black;
-      border-radius: 14px;
-      padding: 25px;
-      width: 340px;
-      animation: pop 0.6s ease forwards;
-    }
-
-    h2 {
-      color: #d24b4b;
-      margin-bottom: 15px;
-      font-size: 26px;
-    }
-
-    .hug {
-      width: 200px;
-      animation: float 2s ease-in-out infinite;
-    }
-
-    @keyframes pop {
-      from {
-        transform: scale(0.85);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .heart {
-      position: absolute;
-      top: -40px;
-      font-size: 22px;
+    /* падащи сърца */
+    .heart{
+      position:absolute;
+      top:-40px;
+      font-size:22px;
       animation: fall linear forwards;
-      opacity: 0.9;
+      opacity:.9;
+      z-index:1;
+      pointer-events:none;
+    }
+    @keyframes fall{
+      to{ transform: translateY(110vh); opacity:0.2; }
+    }
+    @keyframes pop{
+      from{ transform: scale(.8); opacity:0; }
+      to{ transform: scale(1); opacity:1; }
+    }
+    @keyframes floaty{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-10px); }
     }
 
-    @keyframes fall {
-      to {
-        transform: translateY(110vh);
-        opacity: 0.2;
-      }
-    }
+    /* лек fade при смяна */
+    .fade-out{ opacity:0; transition:opacity .25s ease; }
+    .fade-in{ opacity:1; transition:opacity .25s ease; }
   </style>
 </head>
 <body>
+  <div class="card">
+    <h2>Knew you would say yes!</h2>
 
-  <div class="container">
-    <div class="card">
-      <h2>Knew you would say yes!</h2>
-      <img class="hug"
-           src="https://media.tenor.com/0C4Wb9pQbPAAAAAC/bear-hug.gif"
-           alt="hug" />
-    </div>
+    <!-- GIF (hug/kiss) -->
+    <img id="loveGif" class="gif fade-in"
+         src="https://media.tenor.com/0C4Wb9pQbPAAAAAC/bear-hug.gif"
+         alt="hug" />
   </div>
 
   <script>
-    const hearts = ["💖","💗","💘","💞","💓"];
-
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = (18 + Math.random() * 18) + "px";
-      heart.style.animationDuration = (2.5 + Math.random() * 2.5) + "s";
-
-      document.body.appendChild(heart);
-
-      setTimeout(() => heart.remove(), 6000);
+    // Сърца
+    const hearts = ["💗","💖","💘","💞","💓"];
+    function spawnHeart(){
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+      h.style.left = Math.random()*100 + "vw";
+      h.style.animationDuration = (2.5 + Math.random()*2.5) + "s";
+      h.style.fontSize = (18 + Math.random()*18) + "px";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(), 6000);
     }
+    setInterval(spawnHeart, 250);
 
-    setInterval(createHeart, 250);
+    // GIF-ове: Hug + Kiss (ако искаш само един, изтрий другия)
+    const gifs = [
+      "https://media.tenor.com/0C4Wb9pQbPAAAAAC/bear-hug.gif",
+      "https://media.tenor.com/5g6mQp7xkYAAAAAC/kiss-cute.gif"
+    ];
+
+    let gifIndex = 0;
+    const img = document.getElementById("loveGif");
+
+    // Смяна през 2.5 сек
+    setInterval(() => {
+      gifIndex = (gifIndex + 1) % gifs.length;
+      img.classList.remove("fade-in");
+      img.classList.add("fade-out");
+
+      setTimeout(() => {
+        img.src = gifs[gifIndex];
+        img.classList.remove("fade-out");
+        img.classList.add("fade-in");
+      }, 250);
+    }, 2500);
   </script>
-
 </body>
 </html>
