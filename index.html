@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Be My Valentine</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0b1c26;
+    }
+
+    .container {
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 44px;
+      margin-bottom: 20px;
+    }
+
+    h1 span {
+      color: #7cff6b;
+    }
+
+    .card {
+      background: white;
+      color: black;
+      border-radius: 14px;
+      padding: 20px;
+      width: 320px;
+      margin: auto;
+    }
+
+    .card img {
+      width: 140px;
+      margin-bottom: 10px;
+    }
+
+    #question {
+      font-size: 20px;
+      color: #d24b4b;
+      margin: 15px 0;
+    }
+
+    .buttons-wrapper {
+      width: 260px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .yes-button {
+      background: #ff4d6d;
+      color: white;
+      z-index: 2;
+      position: relative;
+    }
+
+    .no-button {
+      background: #e5e5e5;
+      color: #222;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Be My <span>Valentine</span></h1>
+
+    <div class="card">
+      <img src="https://i.imgur.com/6X4bXQp.png" alt="bear" />
+      <div id="question">Will you be my Valentine?</div>
+
+      <div class="buttons-wrapper">
+        <div class="buttons">
+          <button class="yes-button" onclick="handleYes()">Yes</button>
+          <button class="no-button" onclick="handleNo()">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const messages = [
+      "Are you sure?",
+      "Really sure?",
+      "Think again...",
+      "Don't break my heart 💔",
+      "Last chance!"
+    ];
+
+    let index = 0;
+
+    function handleNo() {
+      const noBtn = document.querySelector(".no-button");
+      const yesBtn = document.querySelector(".yes-button");
+
+      noBtn.textContent = messages[index];
+      index = (index + 1) % messages.length;
+
+      const size = parseFloat(getComputedStyle(yesBtn).fontSize);
+      yesBtn.style.fontSize = (size * 1.35) + "px";
+    }
+
+    function handleYes() {
+      window.location.href = "yes_page.html";
+    }
+  </script>
+
+</body>
+</html>
